@@ -31,7 +31,7 @@ class ProductItem extends StatelessWidget {
                 Card(
                   elevation: 8,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Container(
                     height: SizeConfig.screenHeight * 0.6,

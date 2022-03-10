@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:hooks_riverpod/hooks_riverpod.dart';
 //
-// import '../manager/latest_provider.dart';
+// import '../manager/product_provider.dart';
 //
 // class ProductScreen extends HookConsumerWidget {
 //   const ProductScreen({

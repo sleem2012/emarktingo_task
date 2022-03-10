@@ -30,5 +30,7 @@ class MainTheme {
       color: Colors.red,
       fontFamily: 'Tajawal');
   static String productTextFont =
+      'IBMPlexSansArabic';
+  static String mainTextFont =
       'ExpoArabic';
 }

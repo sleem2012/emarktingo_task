@@ -1,22 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:task/core/themes/screen_utility.dart';
 import 'package:task/core/themes/themes.dart';
 import 'package:task/core/widgets/custom_text_field.dart';
+import 'package:task/feature/product/data/product_model.dart';
 import 'package:task/feature/product/presentation/pages/widgets/product_item.dart';
+import 'package:task/core/utlis/helper.dart';
+import 'package:task/feature/product_details/presentation/manager/product_detail_provider.dart';
+import '../manager/product_provider.dart';
+import 'package:task/feature/product_details/presentation/pages/product_detail_screen.dart';
 
 import '../../../../core/utlis/size_config.dart';
 
-class ProductScreen extends StatelessWidget {
-   ProductScreen({Key? key}) : super(key: key);
-  List<dynamic> productItem = [
-    {
-      'image': 'assets/images/grid.png',
-      'label': 'add_new_product',
-    },
+class ProductScreen extends HookConsumerWidget {
+  ProductScreen({Key? key}) : super(key: key);
 
-  ];
+  final AutoDisposeFutureProvider<ProductModel> provider =
+  FutureProvider.autoDispose<ProductModel>((ref) async {
+    return await ref
+        .watch(getProductNotifier.notifier)
+        .getProduct(); // may cause `provider` to rebuild
+  });
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ScrollController scrollController = ScrollController();
     SizeConfig().init(context);
 
     return Directionality(
@@ -24,6 +35,10 @@ class ProductScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
           appBar: AppBar(
             backgroundColor: Colors.white,
             actions: [
@@ -46,44 +61,56 @@ class ProductScreen extends StatelessWidget {
               ),
             ],
             elevation: 0,
-            title:  Text(
+            title: Text(
               'المنتجات',
               style: TextStyle(
-                fontFamily: MainTheme.productTextFont,
-                color: Colors.black,
-              ),
+                  fontFamily: MainTheme.productTextFont,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-          body: SingleChildScrollView(
-            child: SizedBox(
-              height: SizeConfig.screenHeight,
-              child: GridView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 4,
-                itemBuilder: (context, index) => ProductItem(
-                  onPressed: () {
-                    // N.to(
-                    //   AddNewProductScreen(),
-                    // );
-                  },
-                  image: productItem[0]['image'],
-                  label: productItem[0]['label'],
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 15,
-                ),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 0,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: .6,
-                  // mainAxisExtent: context.height * 0.13,
-                ),
-
-              ),
+          body: ref.watch(provider).when(
+            loading: () =>
+            const SpinKitWave(
+              color: MainStyle.secondColor,
             ),
+            error: (e, o) {
+              debugPrint(e.toString());
+              debugPrint(o.toString());
+              return const Text('error');
+            },
+            data: (e) =>
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  controller: scrollController,
+                  child: SizedBox(
+                    height: SizeConfig.screenHeight,
+                    child: GridView.builder(
+                      itemCount: e.data!.length,
+                      itemBuilder: (context, index) =>
+                          ProductItem(
+                            onPressed: () {
+
+                              push(ProductDetailsScreen(productId: e.data![index].id,));
+                            },
+                            image: e.data![index].image,
+                            label: e.data![index].name,
+                          ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 15,
+                      ),
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 0,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: .6,
+                        // mainAxisExtent: context.height * 0.13,
+                      ),
+                    ),
+                  ),
+                ),
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task/core/themes/themes.dart';
 import 'package:task/core/utlis/size_config.dart';
@@ -11,8 +10,8 @@ class ProductItem extends StatelessWidget {
     required this.label,
     required this.onPressed,
   }) : super(key: key);
-  final String image;
-  final String label;
+  final String? image;
+  final String? label;
   final void Function() onPressed;
 
   @override
@@ -28,21 +27,13 @@ class ProductItem extends StatelessWidget {
               fit: StackFit.expand,
               clipBehavior: Clip.none,
               children: [
-                Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                ClipRRect(
+                  child: Image.network(
+                    image!,
+                    fit: BoxFit.fill,
                   ),
-                  child: Container(
-                    height: SizeConfig.screenHeight * 0.6,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.white),
-                    child: Image.asset(
-                      image,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 Positioned(
                   top: SizeConfig.screenHeight * 0.01,
@@ -90,7 +81,7 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: SizeConfig.screenHeight * .1,
+            height: SizeConfig.screenHeight * .06,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -109,7 +100,7 @@ class ProductItem extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: MainTheme.productTextFont,
                           fontWeight: FontWeight.normal,
-                          fontSize: 8,
+                          fontSize: 9,
                           color: Colors.black),
                     ),
                   ],
@@ -122,11 +113,14 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           CustomBtn(
+            showImage: true,
+            onChange: () {},
             text: 'اشحن',
             image: 'assets/images/truck.png',
             textStyle: TextStyle(
-                color: Colors.lightBlueAccent,
-                fontFamily: MainTheme.productTextFont),
+              color: const Color(0xff0062DD),
+              fontFamily: MainTheme.productTextFont,
+            ),
           )
         ],
       ),

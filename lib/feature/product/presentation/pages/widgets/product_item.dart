@@ -12,11 +12,17 @@ class ProductItem extends ConsumerWidget {
     // required this.provider,
     required this.productId,
     required this.label,
+    required this.description,
+    required this.price,
+    required this.weight,
     required this.onPressed,
   }) : super(key: key);
   final String? image;
   final String? label;
+  final String? description;
   final int? productId;
+  final int? price;
+  final String? weight;
   final void Function() onPressed;
 
   @override
@@ -59,7 +65,7 @@ class ProductItem extends ConsumerWidget {
                           child: Image.asset('assets/images/kilo.png'),
                         ),
                         Text(
-                          ' 1 كيلو',
+                          ' ${double.parse(weight!).toInt().toString()} كيلو ',
                           style: TextStyle(
                               fontFamily: MainTheme.productTextFont,
                               fontSize: 12),
@@ -69,7 +75,7 @@ class ProductItem extends ConsumerWidget {
                               horizontal: 8.0, vertical: 8),
                           child: Image.asset('assets/images/pounds.png'),
                         ),
-                        Text('500 جنيه  ',
+                        Text('${price} جنيه  ',
                             style: TextStyle(
                                 fontFamily: MainTheme.productTextFont,
                                 fontSize: 12)),
@@ -100,7 +106,7 @@ class ProductItem extends ConsumerWidget {
                           color: Colors.black),
                     ),
                     Text(
-                      'تيشرتات مقاس لارج خامه قطن',
+                      description!,
                       style: TextStyle(
                           fontFamily: MainTheme.productTextFont,
                           fontWeight: FontWeight.normal,

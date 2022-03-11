@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:task/core/themes/screen_utility.dart';
 import 'package:task/core/themes/themes.dart';
 import 'package:task/core/widgets/custom_text_field.dart';
@@ -75,6 +76,7 @@ class ProductScreen extends HookConsumerWidget {
                                 .toList()
                           ];
                           debugPrint('ll' + suggestions.toString());
+                          debugPrint('ll' + e.data!.toString());
                         },
                       ),
                     ),
@@ -98,42 +100,58 @@ class ProductScreen extends HookConsumerWidget {
                   controller: scrollController,
                   child: SizedBox(
                     height: SizeConfig.screenHeight,
-                    child: GridView.builder(
-                      itemCount: suggestions.isNotEmpty
-                          ? suggestions.length
-                          : e.data!.length,
-                      itemBuilder: (context, index) => ProductItem(
-                        productId: suggestions.isNotEmpty
-                            ? suggestions[index].id
-                            : e.data![index].id,
-                        // provider: provider,
-                        onPressed: () {
-                          push(ProductDetailsScreen(
-                            productId: suggestions.isNotEmpty
-                                ? suggestions[index].id
-                                : e.data![index].id,
-                          ));
-                        },
-                        image: suggestions.isNotEmpty
-                            ? suggestions[index].image
-                            : e.data![index].image,
-                        label: suggestions.isNotEmpty
-                            ? suggestions[index].name
-                            : e.data![index].name,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 15,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 0,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: .6,
-                        // mainAxisExtent: context.height * 0.13,
-                      ),
-                    ),
+                    child: (e.data!.isEmpty && suggestions.isEmpty)
+                        ? Center(
+                            child: Lottie.asset(
+                              'assets/images/noData.json',
+                              repeat: false,
+                            ),
+                          )
+                        : GridView.builder(
+                            itemCount: suggestions.isNotEmpty
+                                ? suggestions.length
+                                : e.data!.length,
+                            itemBuilder: (context, index) => ProductItem(
+                              productId: suggestions.isNotEmpty
+                                  ? suggestions[index].id
+                                  : e.data![index].id,
+                              // provider: provider,
+                              onPressed: () {
+                                push(ProductDetailsScreen(
+                                  productId: suggestions.isNotEmpty
+                                      ? suggestions[index].id
+                                      : e.data![index].id,
+                                ));
+                              },
+                              image: suggestions.isNotEmpty
+                                  ? suggestions[index].image
+                                  : e.data![index].image,
+                              label: suggestions.isNotEmpty
+                                  ? suggestions[index].name
+                                  : e.data![index].name,
+                              description: suggestions.isNotEmpty
+                                  ? suggestions[index].description
+                                  : e.data![index].description,
+                              price: suggestions.isNotEmpty
+                                  ? suggestions[index].price
+                                  : e.data![index].price,
+                              weight: suggestions.isNotEmpty
+                                  ? suggestions[index].weight
+                                  : e.data![index].weight,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 15,
+                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: .6,
+                              // mainAxisExtent: context.height * 0.13,
+                            ),
+                          ),
                   ),
                 ),
               ),

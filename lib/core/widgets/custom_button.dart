@@ -14,12 +14,14 @@ class CustomBtn extends StatelessWidget {
   final void Function() onChange;
   final Color? backgroundColor;
   final bool showImage;
+  final double? elevation;
 
   const CustomBtn(
       {Key? key,
       required this.text,
       this.height,
       this.width,
+      this.elevation,
       this.image,
       this.textStyle,
       required this.onChange,
@@ -35,7 +37,7 @@ class CustomBtn extends StatelessWidget {
       child: MaterialButton(
         onPressed: onChange,
         color: backgroundColor ?? Colors.blue[100],
-        elevation: 0,
+        elevation: elevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

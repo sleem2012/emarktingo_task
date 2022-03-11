@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task/core/themes/themes.dart';
 import 'package:task/core/utlis/size_config.dart';
+import 'package:task/core/widgets/custom_bottom_sheet.dart';
 import 'package:task/core/widgets/custom_button.dart';
 
-class ProductItem extends StatelessWidget {
-  const ProductItem({
+class ProductItem extends ConsumerWidget {
+  const ProductItem( {
     Key? key,
     required this.image,
+    // required this.provider,
+    required this.productId,
     required this.label,
     required this.onPressed,
   }) : super(key: key);
   final String? image;
   final String? label;
+  final int? productId;
   final void Function() onPressed;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return InkWell(
       onTap: onPressed,
       child: Column(
@@ -38,10 +43,9 @@ class ProductItem extends StatelessWidget {
                 Positioned(
                   top: SizeConfig.screenHeight * 0.01,
                   left: SizeConfig.screenWidth * 0.01,
-                  child: Image.asset(
-                    'assets/images/more.png',
-                    width: SizeConfig.screenWidth * .07,
-                  ),
+                  child:  CustomBottomSheet(productId:productId ,
+                    // provider: provider,
+                  )
                 ),
                 Positioned(
                   bottom: SizeConfig.screenHeight * 0.01,
@@ -89,7 +93,7 @@ class ProductItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'شنطة سفر 3 جيب',
+                      label!,
                       style: TextStyle(
                           fontFamily: MainTheme.productTextFont,
                           fontWeight: FontWeight.bold,

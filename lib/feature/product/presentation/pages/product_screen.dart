@@ -7,10 +7,13 @@ import 'package:lottie/lottie.dart';
 import 'package:task/core/themes/screen_utility.dart';
 import 'package:task/core/themes/themes.dart';
 import 'package:task/core/widgets/custom_text_field.dart';
+import 'package:task/feature/add_product/presentation/pages/add_product_screen.dart';
+import 'package:task/feature/product/data/categories_model.dart';
 import 'package:task/feature/product/data/product_model.dart';
 import 'package:task/feature/product/presentation/pages/widgets/product_item.dart';
 import 'package:task/core/utlis/helper.dart';
 import 'package:task/feature/product_details/presentation/manager/product_detail_provider.dart';
+import '../manager/categries_provider.dart';
 import '../manager/product_provider.dart';
 import 'package:task/feature/product_details/presentation/pages/product_detail_screen.dart';
 
@@ -25,6 +28,7 @@ class ProductScreen extends HookConsumerWidget {
         .watch(getProductNotifier.notifier)
         .getProduct(); // may cause `provider` to rebuild
   });
+
 
   StateProvider<List<Data>> suggestionsProvider =
       StateProvider<List<Data>>((ref) => []);
@@ -51,7 +55,9 @@ class ProductScreen extends HookConsumerWidget {
               data: (e) => Scaffold(
                 backgroundColor: Colors.white,
                 floatingActionButton: FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    push( AddProductScreen());
+                  },
                   child: const Icon(Icons.add),
                 ),
                 appBar: AppBar(

@@ -6,7 +6,7 @@ import 'package:task/core/widgets/custom_bottom_sheet.dart';
 import 'package:task/core/widgets/custom_button.dart';
 
 class ProductItem extends ConsumerWidget {
-  const ProductItem( {
+  const ProductItem({
     Key? key,
     required this.image,
     // required this.provider,
@@ -26,7 +26,7 @@ class ProductItem extends ConsumerWidget {
   final void Function() onPressed;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: onPressed,
       child: Column(
@@ -39,20 +39,24 @@ class ProductItem extends ConsumerWidget {
               clipBehavior: Clip.none,
               children: [
                 ClipRRect(
-                  child: Image.network(
-                    image!,
-                    fit: BoxFit.fill,
-                  ),
+                  child: image != null
+                      ? FadeInImage.assetNetwork(
+                          image: image!,
+                          fit: BoxFit.fill,
+                          placeholder: 'assets/images/about.png',
+                          fadeInDuration: const Duration(seconds: 1),
+                        )
+                      : Image.asset('assets/images/about.png'),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 Positioned(
-                  top: SizeConfig.screenHeight * 0.01,
-                  left: SizeConfig.screenWidth * 0.01,
-                  child:  CustomBottomSheet(productId:productId ,
-                    // provider: provider,
-                  )
-                ),
+                    top: SizeConfig.screenHeight * 0.01,
+                    left: SizeConfig.screenWidth * 0.01,
+                    child: CustomBottomSheet(
+                      productId: productId,
+                      // provider: provider,
+                    )),
                 Positioned(
                   bottom: SizeConfig.screenHeight * 0.01,
                   child: Card(

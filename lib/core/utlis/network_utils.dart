@@ -124,22 +124,23 @@ class NetworkUtils {
       //   pushAndRemoveUntil(const SplashView());
       //   return response;
       // }
-      else if (statusCode <= 500) {
-        Fluttertoast.showToast(
-            msg: 'يرجي التحقق من الاتصال بالانترنت',
-            toastLength: Toast.LENGTH_SHORT);
-        return Response(
-            statusCode: 500,
-            data: {
-              'mainCode': 0,
-              'code': 500,
-              'data': null,
-              'error': [
-                {'key': 'internet', 'value': 'يرجي التحقق من الاتصال بالانترنت'}
-              ]
-            },
-            requestOptions: RequestOptions(path: ''));
-      } else {
+      // else if (statusCode <= 500) {
+      //   Fluttertoast.showToast(
+      //       msg: 'يرجي التحقق من الاتصال بالانترنت',
+      //       toastLength: Toast.LENGTH_SHORT);
+      //   return Response(
+      //       statusCode: 500,
+      //       data: {
+      //         'mainCode': 0,
+      //         'code': 500,
+      //         'data': null,
+      //         'error': [
+      //           {'key': 'internet', 'value': 'يرجي التحقق من الاتصال بالانترنت'}
+      //         ]
+      //       },
+      //       requestOptions: RequestOptions(path: ''));
+      // }
+      else {
         return response;
       }
     }

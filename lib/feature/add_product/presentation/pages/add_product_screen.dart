@@ -343,7 +343,7 @@ class AddProductScreen extends HookConsumerWidget {
                           context,
                           "${DateTime.now().toString().substring(0, 10)}+.png",
                         );
-                        pd.show(max: 100, msg: 'loading progress');
+                        pd.show(max: 100, msg: 'loading progress..');
 
                         await Future.delayed(
                           const Duration(seconds: 3),
